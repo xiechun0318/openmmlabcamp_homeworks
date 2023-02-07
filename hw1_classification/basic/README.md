@@ -1,0 +1,3 @@
+| Config file                                          |                                                                                                                                             Model | Validation Accuracy Top-1 |
+| :--------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------: | ------------------------: |
+| efficientnet-b4_flower_bs8_erasing_sgd_step-30-60-90 | [model](https://o365tsukuba-my.sharepoint.com/:u:/g/personal/xie_chun_gu_u_tsukuba_ac_jp/ETIuwZAgTvRNn3SgqWLBn20BCwWIzXNclGtae4MtVn1u5w?e=jDgedG) |                  98.4266% |
