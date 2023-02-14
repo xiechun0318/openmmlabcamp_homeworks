@@ -49,7 +49,7 @@ model = dict(
             num_convs=1,
             num_classes=21,
             in_index=-2,
-            norm_cfg=dict(type='BN', requires_grad=True, momentum=0.01),
+            norm_cfg=dict(type='BN', requires_grad=True),
             concat_input=False,
             align_corners=False,
             loss_decode=dict(
@@ -61,7 +61,7 @@ model = dict(
             num_convs=1,
             num_classes=21,
             in_index=-3,
-            norm_cfg=dict(type='BN', requires_grad=True, momentum=0.01),
+            norm_cfg=dict(type='BN', requires_grad=True),
             concat_input=False,
             align_corners=False,
             loss_decode=dict(
@@ -136,7 +136,7 @@ tta_pipeline = [
                     }]])
 ]
 train_dataloader = dict(
-    batch_size=4,
+    batch_size=8,
     num_workers=4,
     persistent_workers=True,
     sampler=dict(type='InfiniteSampler', shuffle=True),
@@ -210,10 +210,10 @@ log_level = 'INFO'
 load_from = None
 resume = True
 tta_model = dict(type='SegTTAModel')
-optimizer = dict(type='SGD', lr=0.01, momentum=0.9, weight_decay=4e-05)
+optimizer = dict(type='SGD', lr=0.05, momentum=0.9, weight_decay=4e-05)
 optim_wrapper = dict(
     type='OptimWrapper',
-    optimizer=dict(type='SGD', lr=0.01, momentum=0.9, weight_decay=4e-05),
+    optimizer=dict(type='SGD', lr=0.05, momentum=0.9, weight_decay=4e-05),
     clip_grad=None)
 param_scheduler = [
     dict(
@@ -221,18 +221,20 @@ param_scheduler = [
         eta_min=0.0001,
         power=0.9,
         begin=0,
-        end=20000,
+        end=80000,
         by_epoch=False)
 ]
-train_cfg = dict(type='IterBasedTrainLoop', max_iters=40000, val_interval=2000)
+train_cfg = dict(type='IterBasedTrainLoop', max_iters=80000, val_interval=8000)
 val_cfg = dict(type='ValLoop')
 test_cfg = dict(type='TestLoop')
 default_hooks = dict(
     timer=dict(type='IterTimerHook'),
-    logger=dict(type='LoggerHook', interval=200, log_metric_by_epoch=False),
+    logger=dict(type='LoggerHook', interval=100, log_metric_by_epoch=False),
     param_scheduler=dict(type='ParamSchedulerHook'),
-    checkpoint=dict(type='CheckpointHook', by_epoch=False, interval=2000),
+    checkpoint=dict(
+        type='CheckpointHook', by_epoch=False, interval=4000,
+        save_best='auto'),
     sampler_seed=dict(type='DistSamplerSeedHook'),
     visualization=dict(type='SegVisualizationHook'))
 launcher = 'none'
-work_dir = './work_dirs/advanced'
+work_dir = './work_dirs/advanced_2'
